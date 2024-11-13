@@ -1,0 +1,2 @@
+Invoke-RestMethod -Uri http://localhost:3000/users/register -Method Post -ContentType "application/json" -Body '{"username": "testuser", "password": "password123"}'
+Invoke-RestMethod -Uri http://localhost:3000/users/login -Method Post -ContentType "application/json" -Body '{"username": "testuser", "password": "password123"}'

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:learningdart/utils/auth_service.dart'; // Import your auth_service
+import 'package:learningdart/utils/auth_service.dart';
 import 'package:learningdart/components.dart';
 import 'package:learningdart/app_colors.dart';
 import 'package:go_router/go_router.dart';
-import '/router.dart'; // Make sure to import your router or routes file
+import '/router.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -16,7 +16,6 @@ class LoginPageState extends State<LoginPage> {
   TextEditingController userNameTextField = TextEditingController();
   TextEditingController passwordTextField = TextEditingController();
 
-  // Function to show a notification dialog
   void showMessageDialog(BuildContext context, String title, String message) {
     showDialog(
       context: context,
@@ -34,8 +33,6 @@ class LoginPageState extends State<LoginPage> {
       },
     );
   }
-
-  // Function to handle login
   Future<void> handleLogin() async {
     final username = userNameTextField.text;
     final password = passwordTextField.text;
@@ -43,7 +40,6 @@ class LoginPageState extends State<LoginPage> {
     if (username.isNotEmpty && password.isNotEmpty) {
       try {
         await loginUser(username, password);
-        // If login is successful, navigate to ProfilePage
         context.go('${Routes.profilePage}?username=$username');
       } catch (e) {
         showMessageDialog(context, 'Login Failed', e.toString());
@@ -53,7 +49,6 @@ class LoginPageState extends State<LoginPage> {
     }
   }
 
-  // Function to handle registration
   Future<void> handleRegister() async {
     final username = userNameTextField.text;
     final password = passwordTextField.text;
@@ -93,7 +88,7 @@ class LoginPageState extends State<LoginPage> {
               labelStyle: TextStyle(color: AppColors.primaryColor),
               filled: true,
             ),
-            obscureText: true, // Hide the password
+            obscureText: true,
           ),
           SizedBox(height: 15),
           Row(

@@ -7,7 +7,13 @@ class Destination {
   final IconData icon;
 }
 
-const destinations = [
+const List<Destination> loggedOutDestinations = [
   Destination(label: 'Home', icon: Icons.home_outlined),
   Destination(label: 'Login', icon: Icons.login),
+];
+
+const List<Destination> loggedInDestinations = [
+  Destination(label: 'Home', icon: Icons.home_outlined),
+  Destination(label: 'Profile', icon: Icons.person),
+  Destination(label: 'Settings', icon: Icons.settings),
 ];

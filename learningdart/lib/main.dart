@@ -1,9 +1,17 @@
 import 'package:flutter/material.dart';
 import 'app_colors.dart';
 import 'router.dart';
+import 'providers/login_state_provider.dart';
+import 'package:provider/provider.dart';
+
 
 void main() {
-  runApp(MagicCardApp());
+  runApp(
+    ChangeNotifierProvider(
+      create: (context) => LoginStateProvider(),
+      child: MagicCardApp(),
+    ),
+  );
 }
 
 class MagicCardApp extends StatelessWidget {

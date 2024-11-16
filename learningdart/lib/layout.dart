@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'app_colors.dart';
+import 'package:provider/provider.dart';
+import 'providers/login_state_provider.dart';
 import 'destination.dart';
 
 class LayoutScaffold extends StatelessWidget {
@@ -12,19 +13,30 @@ class LayoutScaffold extends StatelessWidget {
   final StatefulNavigationShell navigationShell;
 
   @override
-  Widget build(BuildContext context) => Scaffold(
-    body: navigationShell,
-    bottomNavigationBar: NavigationBar(
-      selectedIndex: navigationShell.currentIndex,
-      onDestinationSelected: navigationShell.goBranch,
-      indicatorColor: AppColors.primaryColor,
-      destinations: destinations
-          .map((destination) => NavigationDestination(
-            icon: Icon(destination.icon), 
-            label: destination.label,
-            selectedIcon: Icon(destination.icon, color: AppColors.backgroundColor),
-            ))
+  Widget build(BuildContext context) {
+    final isLoggedIn = context.watch<LoginStateProvider>().isLoggedIn;
+    final currentDestinations = isLoggedIn ? loggedInDestinations : loggedOutDestinations;
+    final indexMapping = isLoggedIn
+        ? [0, 2, 3] 
+        : [0, 1];  
+
+    return Scaffold(
+      body: navigationShell,
+      bottomNavigationBar: NavigationBar(
+        selectedIndex: indexMapping.indexOf(navigationShell.currentIndex),
+        onDestinationSelected: (index) {
+          print('Selected index: $index, Mapped branch index: ${indexMapping[index]}, Logged in: $isLoggedIn');
+          navigationShell.goBranch(indexMapping[index]);
+        },
+        destinations: currentDestinations
+            .map(
+              (destination) => NavigationDestination(
+                icon: Icon(destination.icon),
+                label: destination.label,
+              ),
+            )
             .toList(),
-    ),
+      ),
     );
+  }
 }

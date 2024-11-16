@@ -3,6 +3,8 @@ import 'package:learningdart/utils/auth_service.dart';
 import 'package:learningdart/components.dart';
 import 'package:learningdart/app_colors.dart';
 import 'package:go_router/go_router.dart';
+import 'package:learningdart/providers/login_state_provider.dart';
+import 'package:provider/provider.dart';
 import '/router.dart';
 
 class LoginPage extends StatefulWidget {
@@ -40,6 +42,7 @@ class LoginPageState extends State<LoginPage> {
     if (username.isNotEmpty && password.isNotEmpty) {
       try {
         await loginUser(username, password);
+        context.read<LoginStateProvider>().logIn();
         context.go('${Routes.profilePage}?username=$username');
       } catch (e) {
         showMessageDialog(context, 'Login Failed', e.toString());

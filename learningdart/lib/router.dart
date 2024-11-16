@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:learningdart/pages/settings_page.dart';
 import 'layout.dart';
 import 'pages/login_page.dart';
 import 'pages/home_page.dart';
@@ -11,6 +12,7 @@ class Routes {
   static const String homePage = '/home';
   static const String loginPage = '/login';
   static const String profilePage = '/profile';
+  static const String settingsPage = '/settings';
 }
 
 final router = GoRouter(
@@ -47,6 +49,14 @@ final router = GoRouter(
                 return ProfilePage(username: username);
               },
             ),
+          ]
+        ),
+        StatefulShellBranch(
+          routes: [
+            GoRoute(
+              path: Routes.settingsPage,
+              builder: (context, state) => const SettingsPage(),
+            )
           ]
         ),
       ]

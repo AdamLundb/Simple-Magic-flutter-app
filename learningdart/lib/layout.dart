@@ -25,7 +25,7 @@ class LayoutScaffold extends StatelessWidget {
       bottomNavigationBar: NavigationBar(
         selectedIndex: indexMapping.indexOf(navigationShell.currentIndex),
         onDestinationSelected: (index) {
-          print('Selected index: $index, Mapped branch index: ${indexMapping[index]}, Logged in: $isLoggedIn');
+          print('index: $index, branch index: ${indexMapping[index]}, Logged in: $isLoggedIn');
           navigationShell.goBranch(indexMapping[index]);
         },
         destinations: currentDestinations

@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:learningdart/app_colors.dart';
 import 'package:learningdart/utils/card_fetcher_functions.dart';
 import 'package:learningdart/components.dart';
+import 'package:provider/provider.dart';
+import 'package:learningdart/widgets/counter_widget_selected_card.dart';
+import 'package:learningdart/providers/login_state_provider.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -101,7 +104,22 @@ class HomePageState extends State<HomePage> {
               Expanded(
                 child: GestureDetector(
                   onTap: setImageUrlToNull,
-                  child: Image.network(cardImageUrl!),
+                  child: Column(
+                    children: [
+                      Flexible( // Ensures the image doesn't overflow
+                        child: Image.network(
+                          cardImageUrl!,
+                          fit: BoxFit.contain, // Ensures the image scales within bounds
+                        ),
+                      ),
+                      Consumer<LoginStateProvider>(builder: (context, loginState, child) {
+                        if (!loginState.isLoggedIn) {
+                          return Container(); // Don't show the counter if not logged in
+                        }
+                        return CounterWidget(cardName: textField.text);
+                      }),
+                    ],
+                  ),
                 ),
               ),
           ],

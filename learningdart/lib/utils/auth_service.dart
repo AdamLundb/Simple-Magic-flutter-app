@@ -23,7 +23,7 @@ Future<void> registerUser(String username, String password) async {
   }
 }
 
-Future<void> loginUser(String username, String password) async {
+Future<Map<String, dynamic>> loginUser(String username, String password) async {
   final url = Uri.parse('$baseUrl/users/login');
   final response = await http.post(
     url,
@@ -40,6 +40,10 @@ Future<void> loginUser(String username, String password) async {
     final data = jsonDecode(response.body);
     print('Login successful: ${data['message']}');
     print('User ID: ${data['userId']}');
+    return {
+      'userId': data['userId'],
+      'username': username,
+    };
   } else {
     throw Exception('Failed to login: ${jsonDecode(response.body)['error']}');
   }

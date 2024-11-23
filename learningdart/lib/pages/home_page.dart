@@ -16,6 +16,7 @@ class HomePage extends StatefulWidget {
 class HomePageState extends State<HomePage> {
   TextEditingController textField = TextEditingController();
   String? cardImageUrl;
+  String cardSetName = '';
   bool isLoading = false;
 
   void setLoading(bool value) {
@@ -33,6 +34,12 @@ class HomePageState extends State<HomePage> {
   void setCardImageUrl(String? url) {
     setState(() {
       cardImageUrl = url;
+    });
+  }
+
+  void setSetName(String setName) {
+    setState(() {
+      cardSetName = setName;
     });
   }
 
@@ -87,6 +94,7 @@ class HomePageState extends State<HomePage> {
                     setLoading,
                     setCardImageUrl,
                     showErrorDialog,
+                    setSetName,
                   );
                 }
               },
@@ -106,17 +114,17 @@ class HomePageState extends State<HomePage> {
                   onTap: setImageUrlToNull,
                   child: Column(
                     children: [
-                      Flexible( // Ensures the image doesn't overflow
+                      Flexible(
                         child: Image.network(
                           cardImageUrl!,
-                          fit: BoxFit.contain, // Ensures the image scales within bounds
+                          fit: BoxFit.contain,
                         ),
                       ),
                       Consumer<LoginStateProvider>(builder: (context, loginState, child) {
                         if (!loginState.isLoggedIn) {
-                          return Container(); // Don't show the counter if not logged in
+                          return Container();
                         }
-                        return CounterWidget(cardName: textField.text);
+                        return CounterWidget(cardName: textField.text, cardSet: cardSetName);
                       }),
                     ],
                   ),

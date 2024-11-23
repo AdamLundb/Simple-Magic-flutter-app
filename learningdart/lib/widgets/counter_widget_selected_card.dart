@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:learningdart/app_colors.dart';
+import 'package:learningdart/utils/collection_services.dart';
+import 'package:provider/provider.dart';
+import 'package:learningdart/providers/login_state_provider.dart';
 
 class CounterWidget extends StatefulWidget {
   final String cardName;
+  final String cardSet;
 
-  const CounterWidget({required this.cardName, super.key});
+  const CounterWidget({required this.cardName, required this.cardSet,super.key});
 
   @override
   CounterWidgetState createState() => CounterWidgetState();
@@ -12,6 +16,12 @@ class CounterWidget extends StatefulWidget {
 
 class CounterWidgetState extends State<CounterWidget> {
   int _counter = 0;
+
+  void _setCounterToZero () {
+    setState(() {
+      _counter = 0;
+    });
+  }
 
   void _incrementCounter() {
     setState(() {
@@ -50,7 +60,12 @@ class CounterWidgetState extends State<CounterWidget> {
         ),
         ElevatedButton(
           onPressed: () {
-            print('Add to database: ${widget.cardName}, Count: $_counter');
+            print("Test");
+            final userId = Provider.of<LoginStateProvider>(context, listen: false).userId!;
+            final username = Provider.of<LoginStateProvider>(context, listen: false).username!;
+            print('User with id: $userId and name : $username');
+            addCardToCollection(userId, widget.cardName, widget.cardSet, false, _counter);
+            print('User with id: $userId and name : $username added to database: ${widget.cardName}, Count: $_counter');
           },
           style: ElevatedButton.styleFrom(
             backgroundColor: AppColors.primaryColor,

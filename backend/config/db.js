@@ -12,6 +12,27 @@ db.serialize(() => {
         password TEXT
       )
     `);
+    db.run(`
+      CREATE TABLE IF NOT EXISTS collection (
+        user_id INTEGER NOT NULL,
+        card_name TEXT NOT NULL,
+        set_name TEXT NOT NULL,
+        is_foil BOOLEAN NOT NULL,
+        quantity INTEGER NOT NULL,
+        UNIQUE (user_id, card_name, set_name, is_foil),
+        FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
+      )
+    `);
+    db.run(`
+      CREATE TABLE IF NOT EXISTS price_history (
+        user_id INTEGER NOT NULL,
+        price_id INTEGER NOT NULL,
+        date TEXT DEFAULT (datetime('now')),
+        total_price REAL NOT NULL,
+        PRIMARY KEY (user_id, price_id),
+        FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
+      )
+    `);
   });
 
   module.exports = db;

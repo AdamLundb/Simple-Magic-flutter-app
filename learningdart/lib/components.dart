@@ -20,6 +20,6 @@ AppBar customAppBar(String titleText) {
     ),
     backgroundColor: AppColors.backgroundColor,
     centerTitle: true,
-    elevation: 4.0, // Adds shadow to the AppBar itself
+    elevation: 4.0, 
   );
 }

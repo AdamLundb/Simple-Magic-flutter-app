@@ -21,10 +21,8 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   void initState() {
     super.initState();
-    // Fetch mana symbols when the widget initializes
     manaSymbolUrlsFuture = fetchManaSymbols();
 
-    // Fetch cards when the profile page initializes
     final userId = Provider.of<LoginStateProvider>(context, listen: false).userId!;
     WidgetsBinding.instance.addPostFrameCallback((_) {
       Provider.of<CardStateProvider>(context, listen: false).fetchCards(userId);
@@ -39,13 +37,10 @@ class _ProfilePageState extends State<ProfilePage> {
         future: manaSymbolUrlsFuture,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            // Show a loading spinner while waiting for the symbols
             return Center(child: CircularProgressIndicator());
           } else if (snapshot.hasError) {
-            // Show an error message if the fetch fails
             return Center(child: Text('Failed to load mana symbols'));
           } else {
-            // Pass the fetched manaSymbolUrls to CardList
             return Consumer<CardStateProvider>(
               builder: (context, cardState, child) {
                 return CardList(manaSymbolUrls: snapshot.data!);

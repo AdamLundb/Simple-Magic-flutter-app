@@ -21,7 +21,7 @@ class _CardListState extends State<CardList> {
   @override
   Widget build(BuildContext context) {
     final cardState = Provider.of<CardStateProvider>(context);
-    print('CardList received cards: ${cardState.cards}'); // Debug log
+    print('CardList received cards: ${cardState.cards}'); 
 
     if (cardState.isLoading) {
       return Center(child: CircularProgressIndicator());
@@ -36,10 +36,9 @@ class _CardListState extends State<CardList> {
       itemBuilder: (context, index) {
         return CardWidget(
           card: cardState.cards[index],
-          isSelected: selectedCardIndex == index, // Check if this card is selected
+          isSelected: selectedCardIndex == index,
           onTap: () {
             setState(() {
-              // Toggle the selected card
               selectedCardIndex = (selectedCardIndex == index) ? null : index;
             });
           },

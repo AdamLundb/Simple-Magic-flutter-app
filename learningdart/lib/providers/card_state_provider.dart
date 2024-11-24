@@ -12,16 +12,12 @@ class CardStateProvider with ChangeNotifier {
   Future<void> fetchCards(int userId) async {
     _isLoading = true;
     notifyListeners();
-    print('Fetching cards for userId: $userId...'); // Debug log
-
     try {
       final rawData = await fetchCardData(userId);
       print('Raw data fetched: $rawData'); // Debug log
 
       _cards = rawData.map((json) => CardModel.fromJson(json)).toList();
-      print('Parsed cards: $_cards'); // Debug log
     } catch (e) {
-      print('Error fetching cards: $e'); // Debug log
     } finally {
       _isLoading = false;
       notifyListeners();

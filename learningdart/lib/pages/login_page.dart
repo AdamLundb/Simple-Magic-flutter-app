@@ -41,15 +41,12 @@ class LoginPageState extends State<LoginPage> {
 
     if (username.isNotEmpty && password.isNotEmpty) {
       try {
-        // Get user data from the login API
         final loginData = await loginUser(username, password);
         final userId = loginData['userId'];
         final loggedInUsername = loginData['username'];
 
-        // Update the provider with the logged-in user data
         context.read<LoginStateProvider>().logIn(userId, loggedInUsername);
 
-        // Navigate to the profile page with the username
         context.go('${Routes.profilePage}?username=$loggedInUsername');
       } catch (e) {
         showMessageDialog(context, 'Login Failed', e.toString());

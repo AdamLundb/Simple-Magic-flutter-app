@@ -29,7 +29,7 @@ class LayoutScaffold extends StatelessWidget {
           final branchIndex = indexMapping[index];
           print('index: $index, branch index: $branchIndex, Logged in: $isLoggedIn');
 
-          if (branchIndex == 2) { // ProfilePage index
+          if (branchIndex == 2) { 
             final userId = context.read<LoginStateProvider>().userId!;
             context.read<CardStateProvider>().fetchCards(userId);
           }

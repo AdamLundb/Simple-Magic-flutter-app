@@ -3,13 +3,13 @@ const db = require('../config/db');
 class CollectionController {
   static async addCardToCollection(req, res) {
     console.log('Request received:', req.body);
-    const { userId, cardName, setName, isFoil, quantity } = req.body;
+    const { user_id: userId, card_name: cardName, set_name: setName, card_mana: cardMana, is_foil: isFoil, quantity } = req.body;
     db.run(
-      `INSERT INTO collection (user_id, card_name, set_name, is_foil, quantity)
-       VALUES (?, ?, ?, ?, ?)
+      `INSERT INTO collection (user_id, card_name, set_name, card_mana, is_foil, quantity)
+       VALUES (?, ?, ?, ?, ?, ?)
        ON CONFLICT(user_id, card_name, set_name, is_foil)
        DO UPDATE SET quantity = quantity + ?`,
-      [userId, cardName, setName, isFoil, quantity, quantity],
+      [userId, cardName, setName, cardMana,isFoil, quantity, quantity],
       (err) => {
         if (err) {
           console.error('Error adding card to collection:', err);
@@ -23,8 +23,9 @@ class CollectionController {
 
   static async viewCollection(req, res) {
     const userId = req.params.userId;
+    console.log(`Received request to fetch collection for userId: ${userId}`);
     db.all(
-      `SELECT card_name, set_name, is_foil, quantity
+      `SELECT card_name, set_name, is_foil, card_mana, quantity
        FROM collection
        WHERE user_id = ?`,
       [userId],

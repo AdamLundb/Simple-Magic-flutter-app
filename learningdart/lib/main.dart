@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:learningdart/providers/card_state_provider.dart';
 import 'app_colors.dart';
 import 'router.dart';
 import 'providers/login_state_provider.dart';
 import 'package:provider/provider.dart';
 
-
 void main() {
   runApp(
-    ChangeNotifierProvider(
-      create: (context) => LoginStateProvider(),
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => LoginStateProvider()),
+        ChangeNotifierProvider(create: (context) => CardStateProvider()),
+      ],
       child: MagicCardApp(),
     ),
   );
@@ -19,10 +22,10 @@ class MagicCardApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => MaterialApp.router(
-    routerConfig: router,
-    debugShowCheckedModeBanner: true,
-    theme: ThemeData.from(
-      colorScheme: ColorScheme.fromSeed(seedColor: AppColors.primaryColor),
-    ),
-  );
+        routerConfig: router,
+        debugShowCheckedModeBanner: true,
+        theme: ThemeData.from(
+          colorScheme: ColorScheme.fromSeed(seedColor: AppColors.primaryColor),
+        ),
+      );
 }

@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:learningdart/widgets/card_widget.dart';
+import 'package:learningdart/providers/card_state_provider.dart';
 
 class CardList extends StatefulWidget {
   final Map<String, String> manaSymbolUrls;
 
-  CardList({required this.manaSymbolUrls});
+  const CardList({
+    Key? key,
+    required this.manaSymbolUrls,
+  }) : super(key: key);
 
   @override
   _CardListState createState() => _CardListState();
@@ -13,53 +18,32 @@ class CardList extends StatefulWidget {
 class _CardListState extends State<CardList> {
   int? selectedCardIndex;
 
-  final List<CardModel> cards = [
-    CardModel(
-      name: "Divination",
-      manaCost: "{2}{U}",
-      quantity: 4,
-      color: Colors.blue,
-    ),
-    CardModel(
-      name: "Lightning Bolt",
-      manaCost: "{R}",
-      quantity: 2,
-      color: Colors.red,
-    ),
-    CardModel(
-      name: "Llanowar Elves",
-      manaCost: "{G}",
-      quantity: 3,
-      color: Colors.green,
-    ),
-    CardModel(
-      name: "Dark Ritual",
-      manaCost: "{B}",
-      quantity: 5,
-      color: Colors.black,
-    ),
-    CardModel(
-      name: "Wrath of God",
-      manaCost: "{2}{W}{W}",
-      quantity: 1,
-      color: Colors.purple,
-    ),
-  ];
-
   @override
   Widget build(BuildContext context) {
+    final cardState = Provider.of<CardStateProvider>(context);
+    print('CardList received cards: ${cardState.cards}'); // Debug log
+
+    if (cardState.isLoading) {
+      return Center(child: CircularProgressIndicator());
+    }
+
+    if (cardState.cards.isEmpty) {
+      return Center(child: Text('No cards found.'));
+    }
+
     return ListView.builder(
-      itemCount: cards.length,
+      itemCount: cardState.cards.length,
       itemBuilder: (context, index) {
         return CardWidget(
-          card: cards[index],
-          isSelected: selectedCardIndex == index,
+          card: cardState.cards[index],
+          isSelected: selectedCardIndex == index, // Check if this card is selected
           onTap: () {
             setState(() {
-              selectedCardIndex = selectedCardIndex == index ? null : index;
+              // Toggle the selected card
+              selectedCardIndex = (selectedCardIndex == index) ? null : index;
             });
           },
-          manaSymbolUrls: widget.manaSymbolUrls, 
+          manaSymbolUrls: widget.manaSymbolUrls,
         );
       },
     );

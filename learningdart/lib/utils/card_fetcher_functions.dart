@@ -7,6 +7,7 @@ Future<void> fetchCard(
     Function(String?) setCardImageUrl,
     Function(String) showErrorDialog,
     Function(String) setSetName,
+    Function(String) setCardManaCost,
 ) async {
   setLoading(true);
   try {
@@ -15,6 +16,7 @@ Future<void> fetchCard(
       final selectedCard = jsonDecode(response.body);
       setSetName(selectedCard['set']);
       setCardImageUrl(selectedCard['image_uris']['normal']);
+      setCardManaCost(selectedCard['mana_cost']);
     } else {
       setCardImageUrl(null);
       showErrorDialog("Couldn't get the card. Error code: ${response.statusCode}");
@@ -24,5 +26,23 @@ Future<void> fetchCard(
     showErrorDialog("Couldn't get the card. Error: ${e.toString()}");
   } finally {
     setLoading(false);
+  }
+}
+
+Future<List<dynamic>> fetchCardData(int userId) async {
+  final url = Uri.parse('http://10.0.2.2:3000/api/collection/$userId');
+  try {
+    final response = await http.get(url);
+
+    if (response.statusCode == 200) {
+      print("API Response: ${response.body}");
+      print(response.body);
+      return json.decode(response.body);
+    } else {
+      throw Exception('Failed to load cards');
+    }
+  } catch (error) {
+    print('Error fetching cards: $error');
+    throw error;
   }
 }

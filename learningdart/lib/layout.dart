@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'providers/login_state_provider.dart';
+import 'providers/card_state_provider.dart';
 import 'destination.dart';
 
 class LayoutScaffold extends StatelessWidget {
@@ -25,8 +26,15 @@ class LayoutScaffold extends StatelessWidget {
       bottomNavigationBar: NavigationBar(
         selectedIndex: indexMapping.indexOf(navigationShell.currentIndex),
         onDestinationSelected: (index) {
-          print('index: $index, branch index: ${indexMapping[index]}, Logged in: $isLoggedIn');
-          navigationShell.goBranch(indexMapping[index]);
+          final branchIndex = indexMapping[index];
+          print('index: $index, branch index: $branchIndex, Logged in: $isLoggedIn');
+
+          if (branchIndex == 2) { // ProfilePage index
+            final userId = context.read<LoginStateProvider>().userId!;
+            context.read<CardStateProvider>().fetchCards(userId);
+          }
+
+          navigationShell.goBranch(branchIndex);
         },
         destinations: currentDestinations
             .map(

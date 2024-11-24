@@ -17,6 +17,7 @@ class HomePageState extends State<HomePage> {
   TextEditingController textField = TextEditingController();
   String? cardImageUrl;
   String cardSetName = '';
+  String cardManaCost = '';
   bool isLoading = false;
 
   void setLoading(bool value) {
@@ -40,6 +41,12 @@ class HomePageState extends State<HomePage> {
   void setSetName(String setName) {
     setState(() {
       cardSetName = setName;
+    });
+  }
+
+  void setCardManaCost(String manaCost) {
+    setState(() {
+      cardManaCost = manaCost;
     });
   }
 
@@ -95,6 +102,7 @@ class HomePageState extends State<HomePage> {
                     setCardImageUrl,
                     showErrorDialog,
                     setSetName,
+                    setCardManaCost,
                   );
                 }
               },
@@ -124,7 +132,7 @@ class HomePageState extends State<HomePage> {
                         if (!loginState.isLoggedIn) {
                           return Container();
                         }
-                        return CounterWidget(cardName: textField.text, cardSet: cardSetName);
+                        return CounterWidget(cardName: textField.text, cardSet: cardSetName, cardMana: cardManaCost);
                       }),
                     ],
                   ),

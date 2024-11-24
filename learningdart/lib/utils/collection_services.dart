@@ -1,14 +1,15 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
-Future<void> addCardToCollection(int userId, String cardName, String setName, bool isFoil, int quantity) async {
+Future<void> addCardToCollection(int userId, String cardName, String setName, String cardMana, bool isFoil, int quantity) async {
   const String apiUrl = 'http://10.0.2.2:3000/api/collection';
 
   final Map<String, dynamic> requestBody = {
-    'userId': userId,
-    'cardName': cardName,
-    'setName': setName,
-    'isFoil': isFoil,
+    'user_id': userId,
+    'card_name': cardName,
+    'set_name': setName,
+    'card_mana' : cardMana,
+    'is_foil': isFoil,
     'quantity': quantity,
   };
 

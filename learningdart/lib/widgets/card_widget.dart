@@ -1,19 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:learningdart/widgets/mana_symbol_widget.dart';
-
-class CardModel {
-  final String name;
-  final String manaCost;
-  final int quantity;
-  final Color color;
-
-  CardModel({
-    required this.name,
-    required this.manaCost,
-    required this.quantity,
-    required this.color,
-  });
-}
+import 'package:learningdart/utils/card_color_picker.dart';
+import 'package:learningdart/models/card_model.dart';
 
 class CardWidget extends StatelessWidget {
   final CardModel card;
@@ -37,12 +25,15 @@ class CardWidget extends StatelessWidget {
         alignment: Alignment.centerRight,
         child: AnimatedContainer(
           duration: Duration(milliseconds: 300),
-          height: isSelected ? 100 : 60,
+          height: isSelected ? 45 : 30,
           width: isSelected
               ? MediaQuery.of(context).size.width * 0.85
               : MediaQuery.of(context).size.width * 0.75,
           decoration: BoxDecoration(
-            color: card.color,
+            image: DecorationImage(
+              image: AssetImage(chooseColorImage(card.manaCost)),
+              fit: BoxFit.cover,
+            ),
             borderRadius: BorderRadius.only(
               topLeft: Radius.circular(20),
               bottomLeft: Radius.circular(20),
@@ -66,9 +57,9 @@ class CardWidget extends StatelessWidget {
                   child: Text(
                     card.name,
                     style: TextStyle(
-                      color: Colors.white,
-                      fontSize: isSelected ? 22 : 18,
-                      fontWeight: FontWeight.bold,
+                      color: Colors.black,
+                      fontSize: isSelected ? 18 : 16,
+                      fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
                     ),
                     overflow: TextOverflow.ellipsis,
                     softWrap: false,
@@ -79,8 +70,9 @@ class CardWidget extends StatelessWidget {
                   child: Text(
                     'x${card.quantity}',
                     style: TextStyle(
-                      color: Colors.white70,
-                      fontSize: isSelected ? 18 : 14,
+                      color: Colors.black,
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
                     ),
                     textAlign: TextAlign.end,
                   ),

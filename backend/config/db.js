@@ -17,6 +17,7 @@ db.serialize(() => {
         user_id INTEGER NOT NULL,
         card_name TEXT NOT NULL,
         set_name TEXT NOT NULL,
+        card_mana TEXT NOT NULL,
         is_foil BOOLEAN NOT NULL,
         quantity INTEGER NOT NULL,
         UNIQUE (user_id, card_name, set_name, is_foil),

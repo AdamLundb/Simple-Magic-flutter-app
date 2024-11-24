@@ -7,8 +7,9 @@ import 'package:learningdart/providers/login_state_provider.dart';
 class CounterWidget extends StatefulWidget {
   final String cardName;
   final String cardSet;
+  final String cardMana;
 
-  const CounterWidget({required this.cardName, required this.cardSet,super.key});
+  const CounterWidget({required this.cardName, required this.cardSet, required this.cardMana, super.key});
 
   @override
   CounterWidgetState createState() => CounterWidgetState();
@@ -64,7 +65,8 @@ class CounterWidgetState extends State<CounterWidget> {
             final userId = Provider.of<LoginStateProvider>(context, listen: false).userId!;
             final username = Provider.of<LoginStateProvider>(context, listen: false).username!;
             print('User with id: $userId and name : $username');
-            addCardToCollection(userId, widget.cardName, widget.cardSet, false, _counter);
+            addCardToCollection(userId, widget.cardName, widget.cardSet, widget.cardMana, false, _counter);
+            //_setCounterToZero();
             print('User with id: $userId and name : $username added to database: ${widget.cardName}, Count: $_counter');
           },
           style: ElevatedButton.styleFrom(
